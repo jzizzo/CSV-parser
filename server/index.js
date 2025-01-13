@@ -85,6 +85,39 @@ app.post("/upload", upload.single("file"), (req, res) => {
       .json({ error: "All fields and a valid file are required." });
   }
 
+  const unit = parseFloat(unitCost);
+  const bestGuess = parseFloat(bestGuessPrice);
+  const max = parseFloat(maxPrice);
+  console.log({ unit, bestGuess, max });
+
+  if (isNaN(unit) || isNaN(bestGuess) || isNaN(max)) {
+    return res.status(400).json({
+      error:
+        "Unit cost, best-guess price, and max price must be valid numbers.",
+    });
+  }
+  if (unit <= 0 || bestGuess <= 0 || max <= 0) {
+    return res
+      .status(400)
+      .json({ error: "All values must be positive numbers." });
+  }
+  if (unit >= max) {
+    return res
+      .status(400)
+      .json({ error: "Unit cost must be less than max price." });
+  }
+  if (bestGuess < unit || bestGuess > max) {
+    return res.status(400).json({
+      error: "Best-guess price must be between unit cost and max price.",
+    });
+  }
+
+  if (!result.optimalPrice || !result.maxProfit || result.maxProfit <= 0) {
+    return res.status(400).json({
+      message: "No viable price would yield a profit.",
+    });
+  }
+
   let parsedData;
 
   // Parse file
