@@ -11,7 +11,14 @@ import {
 } from "chart.js";
 
 // Register ChartJS components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const App: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -95,15 +102,18 @@ const App: React.FC = () => {
         datasets: [
           {
             label: "Total Revenue",
-            data: Object.values(responseData.monthlyMetrics[0].monthlyVolumes).map(
-              (volume: number) => volume * responseData.optimalPrice
-            ),
+            data: Object.values(
+              responseData.monthlyMetrics[0].monthlyVolumes
+            ).map((volume: number) => volume * responseData.optimalPrice),
             backgroundColor: "rgba(75, 192, 192, 0.5)",
           },
           {
             label: "Total Profit",
-            data: Object.values(responseData.monthlyMetrics[0].monthlyVolumes).map(
-              (volume: number) => volume * (responseData.optimalPrice - parseFloat(unitCost))
+            data: Object.values(
+              responseData.monthlyMetrics[0].monthlyVolumes
+            ).map(
+              (volume: number) =>
+                volume * (responseData.optimalPrice - parseFloat(unitCost))
             ),
             backgroundColor: "rgba(255, 99, 132, 0.5)",
           },
@@ -113,7 +123,10 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md" style={{ margin: 10 }}>
+      <div
+        className="bg-white shadow-md rounded-lg p-6 w-full max-w-md"
+        style={{ margin: 10 }}
+      >
         <h1 className="text-xl font-bold mb-4">Upload CSV/Excel</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <input
@@ -156,7 +169,8 @@ const App: React.FC = () => {
         <div style={{ marginTop: "20px", width: "80%" }}>
           <h2 className="text-2xl font-bold text-center mb-4">Results</h2>
           <p className="text-lg text-center">
-            <strong>Optimal Price:</strong> {formatCurrency(responseData.optimalPrice)}
+            <strong>Optimal Price:</strong>{" "}
+            {formatCurrency(responseData.optimalPrice)}
           </p>
           <p className="text-lg text-center">
             <strong>Total Revenue:</strong>{" "}
@@ -169,7 +183,9 @@ const App: React.FC = () => {
 
           {/* Bar Chart */}
           <div className="mt-6">
-            <h2 className="text-xl font-semibold text-center mb-4">Monthly Metrics</h2>
+            <h2 className="text-xl font-semibold text-center mb-4">
+              Monthly Metrics
+            </h2>
             {chartData && (
               <div>
                 <Bar
